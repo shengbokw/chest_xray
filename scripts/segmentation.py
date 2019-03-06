@@ -49,7 +49,8 @@ def remove_small_regions(img, size):
 
 def distribution(gray_img):
     """
-    calculate the distribution of img
+    calculate the distribution of img,
+    total will be used on calculating fraction
     """
     img_shape = gray_img.shape
     gray_distribution = [0] * 256
@@ -77,6 +78,12 @@ def lung_density(pr, img):
 
 
 def extract_features():
+    """
+    this function will combine features:
+    gray scale value distribution,
+    density of lungs,
+    ...
+    """
     features = []
 
     # Load test data
@@ -95,6 +102,7 @@ def extract_features():
     for xx in test_gen.flow(X, batch_size=1):
         feature = []
         img = exposure.rescale_intensity(np.squeeze(xx), out_range=(0, 1))
+        # I'm still thinking about how to deal with the gray scale
         img = img_as_ubyte(img)
         pred = UNet.predict(xx)[..., 0].reshape(inp_shape[:2])
         pr = pred > 0.5
@@ -105,6 +113,7 @@ def extract_features():
         feature.append(dist)
         feature.append(total)
         feature.append(lung_density(pr_int, img))
+
         features.append(feature)
         # np.savetxt('test.out', pr_int, delimiter='', fmt="%s")
 
