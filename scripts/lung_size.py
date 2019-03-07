@@ -39,7 +39,5 @@ def size_of_lungs():
 
     fraction = round(l/r, 3)
     # print("Right lung: %s" % r, "\nLeft lung size: %s" % l, "\nFraction between right and left lung: %s" % fraction)
+
     return r, l, fraction
-
-
-size_of_lungs()
