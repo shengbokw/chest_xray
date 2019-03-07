@@ -89,7 +89,8 @@ features = []
 # Load test data
 im_shape = (256, 256)
 X = loadDataGeneral(df, folder, im_shape)
-
+# stop when it arrive the length of X
+n_test = X.shape[0]
 inp_shape = X[0].shape
 
 # Load model
@@ -98,7 +99,7 @@ UNet = load_model(model_name)
 
 # For inference standard keras ImageGenerator can be used.
 test_gen = ImageDataGenerator(rescale=1.)
-
+i = 0
 for xx in test_gen.flow(X, batch_size=1):
     feature = []
     img = exposure.rescale_intensity(np.squeeze(xx), out_range=(0, 1))
@@ -118,6 +119,9 @@ for xx in test_gen.flow(X, batch_size=1):
     dist.append(fraction)
 
     features.append(dist)
+    i += 1
+    if i == n_test:
+        break
 
 np_features = np.array(features)
 np.savetxt('PNEUMONIA_val.csv', np_features, delimiter=',', fmt="%s")
