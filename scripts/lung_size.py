@@ -13,8 +13,8 @@ def read_the_image_file():
     return matr
 
 
-def size_of_lungs():
-    img = read_the_image_file()
+def size_of_lungs(img):
+    # img = read_the_image_file()
     t = [[img[j][i] for j in range(len(img))] for i in range(len(img[0]))]
     r = 0  # right (in actual body) lung
     l = 0
