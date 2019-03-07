@@ -5,6 +5,7 @@ from keras.models import load_model
 from keras.preprocessing.image import ImageDataGenerator
 from skimage import morphology, io, exposure, img_as_float, transform, img_as_ubyte
 from matplotlib import pyplot as plt
+import lung_size as ls
 
 
 current_path = '/Users/shengbo/shengbo/VU/ML/chest_xray/lung-segmentation-2d/Demo/'
@@ -109,12 +110,17 @@ for xx in test_gen.flow(X, batch_size=1):
     pr_int = np.array(pr, dtype=np.int8)
 
     dist, total = distribution(img)
-    feature.append(dist)
-    feature.append(total)
-    feature.append(lung_density(pr_int, img))
+    dist.append(total)
+    dist.append(lung_density(pr_int, img))
+    r, l, fraction = ls.size_of_lungs(pr_int)
+    dist.append(r)
+    dist.append(l)
+    dist.append(fraction)
 
-    features.append(feature)
-    # np.savetxt('test.out', pr_int, delimiter='', fmt="%s")
+    features.append(dist)
+
+np_features = np.array(features)
+np.savetxt('PNEUMONIA_val.csv', np_features, delimiter=',', fmt="%s")
 
 
 
