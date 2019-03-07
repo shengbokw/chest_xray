@@ -13,8 +13,8 @@ def read_the_image_file():
     return t
 
 
-def size_of_lungs():
-    img = read_the_image_file()
+def size_of_lungs(img):
+    # img = read_the_image_file()
     r = 0  # right (in actual body) lung
     l = 0
     s = 0  # starting point
@@ -37,7 +37,8 @@ def size_of_lungs():
         l = l + s_l
 
     fraction = round(l/r, 3)
-    print("Right lung: %s" % r, "\nLeft lung size: %s" % l, "\nFraction between right and left lung: %s" % fraction)
+    # print("Right lung: %s" % r, "\nLeft lung size: %s" % l, "\nFraction between right and left lung: %s" % fraction)
+
     return r, l, fraction
 
 
