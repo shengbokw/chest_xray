@@ -91,6 +91,8 @@ def extract_features():
     im_shape = (256, 256)
     X = loadDataGeneral(df, folder, im_shape)
 
+    # stop when it arrive the length of X
+    n_test = X.shape[0]
     inp_shape = X[0].shape
 
     # Load model
@@ -100,6 +102,7 @@ def extract_features():
     # For inference standard keras ImageGenerator can be used.
     test_gen = ImageDataGenerator(rescale=1.)
 
+    i = 0
     for xx in test_gen.flow(X, batch_size=1):
         # feature = []
         img = exposure.rescale_intensity(np.squeeze(xx), out_range=(0, 1))
@@ -120,6 +123,10 @@ def extract_features():
 
         features.append(dist)
         # np.savetxt('test.out', pr_int, delimiter='', fmt="%s")
+
+        i += 1
+        if i == n_test:
+            break
 
     return features
 
