@@ -109,12 +109,12 @@ def extract_features():
         pr = remove_small_regions(pr, 0.02 * np.prod(im_shape))
         pr_int = np.array(pr, dtype=np.int8)
 
-        dist, total = distribution(img)
-        feature.append(dist)
-        feature.append(total)
-        feature.append(lung_density(pr_int, img))
-
-        features.append(feature)
+        # dist, total = distribution(img)
+        # feature.append(dist)
+        # feature.append(total)
+        # feature.append(lung_density(pr_int, img))
+        #
+        # features.append(feature)
         # np.savetxt('test.out', pr_int, delimiter='', fmt="%s")
 
     return features
