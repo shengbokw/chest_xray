@@ -9,7 +9,7 @@ import lung_size as ls
 
 
 current_path = '/Users/shengbo/shengbo/VU/ML/chest_xray/lung-segmentation-2d/Demo/'
-folder = '/Users/shengbo/shengbo/VU/ML/chest_xray/val/PNEUMONIA'
+folder = '/Users/shengbo/shengbo/VU/ML/chest_xray/train/NORMAL'
 files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
 df = pd.DataFrame(data=files, columns={'img'})
 df[df['img'] == '.DS_Store'] = None
@@ -78,7 +78,7 @@ def lung_density(pr, img):
     return density * 1.0 / (size + 1)
 
 
-def extract_features():
+def extract_features(folder, df, savefile):
     """
     this function will combine features:
     gray scale value distribution,
@@ -128,9 +128,12 @@ def extract_features():
         if i == n_test:
             break
 
-    return features
+    np_features = np.array(features)
+    np.savetxt(savefile, np_features, delimiter=',', fmt="%s")
+    # return features
 
 
+extract_features(df, folder, 'normal_test.csv')
 # plt.imshow(img, cmap='gray')
 # df = pd.read_csv(csv_path)
 
