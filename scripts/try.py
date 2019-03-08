@@ -9,7 +9,7 @@ import lung_size as ls
 
 
 current_path = '/Users/shengbo/shengbo/VU/ML/chest_xray/lung-segmentation-2d/Demo/'
-folder = '/Users/dinghuiwen/PycharmProjects/Images/train/PNEUMONIA'
+folder = '/Users/dinghuiwen/PycharmProjects/Images/test/PNEUMONIA'
 files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
 df = pd.DataFrame(data=files, columns={'img'})
 df[df['img'] == '.DS_Store'] = None
@@ -17,6 +17,7 @@ df = df.dropna()
 # csv_path = current_path + 'idx.csv'
 # # Path to the folder with images. Images will be read from path + path_from_csv
 # path = current_path + 'Data/'
+
 
 def loadDataGeneral(df, path, im_shape):
     """
@@ -124,7 +125,7 @@ for xx in test_gen.flow(X, batch_size=1):
         break
 
 np_features = np.array(features)
-np.savetxt('../PNEUMONIA_train.csv', np_features, delimiter=',', fmt="%s")
+np.savetxt('../PNEUMONIA_test.csv', np_features, delimiter=',', fmt="%s")
 
 
 
