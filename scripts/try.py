@@ -25,8 +25,15 @@ def loadDataGeneral(df, path, im_shape):
     """
     X = []
     for i, item in df.iterrows():
-        img = img_as_float(io.imread(path + '/' + item[0]))
+        # img = img_as_float(io.imread(path + '/' + item[0]))
+
+        img = img_as_float(io.imread(path + '/' + item[0], as_gray=True))
         img = transform.resize(img, im_shape)
+        # try:
+        #     img = transform.resize(img, im_shape)
+        # except ValueError:
+        #     print(item[0] + " is wrong")
+
         img = exposure.equalize_hist(img)
         img = np.expand_dims(img, -1)
         X.append(img)
