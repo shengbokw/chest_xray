@@ -9,7 +9,7 @@ import lung_size as ls
 
 
 current_path = '/Users/shengbo/shengbo/VU/ML/chest_xray/lung-segmentation-2d/Demo/'
-folder = '/Users/shengbo/shengbo/VU/ML/chest_xray/train/NORMAL'
+folder = '/Users/shengbo/shengbo/VU/ML/chest_xray/val/NORMAL'
 files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
 df = pd.DataFrame(data=files, columns={'img'})
 df[df['img'] == '.DS_Store'] = None
@@ -107,7 +107,9 @@ def extract_features(folder, df, savefile):
         # feature = []
         img = exposure.rescale_intensity(np.squeeze(xx), out_range=(0, 1))
         # I'm still thinking about how to deal with the gray scale
-        img = img_as_ubyte(img)
+        # img = img_as_ubyte(img)
+        img = img * 15
+        img = img.astype(dtype=np.int8)
         pred = UNet.predict(xx)[..., 0].reshape(inp_shape[:2])
         pr = pred > 0.5
         pr = remove_small_regions(pr, 0.02 * np.prod(im_shape))
