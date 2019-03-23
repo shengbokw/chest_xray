@@ -9,7 +9,7 @@ import lung_size as ls
 
 
 current_path = '/Users/shengbo/shengbo/VU/ML/chest_xray/lung-segmentation-2d/Demo/'
-folder = '/Users/dinghuiwen/PycharmProjects/Images/val/PNEUMONIA'
+folder = '/Users/dinghuiwen/PycharmProjects/Images/train/PNEUMONIA'
 files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
 df = pd.DataFrame(data=files, columns={'img'})
 df[df['img'] == '.DS_Store'] = None
@@ -18,14 +18,22 @@ df = df.dropna()
 # # Path to the folder with images. Images will be read from path + path_from_csv
 # path = current_path + 'Data/'
 
+
 def loadDataGeneral(df, path, im_shape):
     """
     reshaping images
     """
     X = []
     for i, item in df.iterrows():
-        img = img_as_float(io.imread(path + '/' + item[0]))
+        # img = img_as_float(io.imread(path + '/' + item[0]))
+
+        img = img_as_float(io.imread(path + '/' + item[0], as_gray=True))
         img = transform.resize(img, im_shape)
+        # try:
+        #     img = transform.resize(img, im_shape)
+        # except ValueError:
+        #     print(item[0] + " is wrong")
+
         img = exposure.equalize_hist(img)
         img = np.expand_dims(img, -1)
         X.append(img)
@@ -124,7 +132,7 @@ for xx in test_gen.flow(X, batch_size=1):
         break
 
 np_features = np.array(features)
-np.savetxt('PNEUMONIA_val.csv', np_features, delimiter=',', fmt="%s")
+np.savetxt('../PNEUMONIA_train.csv', np_features, delimiter=',', fmt="%s")
 
 
 
