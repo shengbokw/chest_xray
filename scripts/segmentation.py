@@ -5,7 +5,7 @@ from keras.models import load_model
 from keras.preprocessing.image import ImageDataGenerator
 from skimage import morphology, io, exposure, img_as_float, transform, img_as_ubyte
 from matplotlib import pyplot as plt
-import lung_size as ls
+# import lung_size as ls
 
 
 current_path = '/Users/shengbo/shengbo/VU/ML/chest_xray/lung-segmentation-2d/Demo/'
